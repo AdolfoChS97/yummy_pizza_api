@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
+let routes = require('./routes');
 
-app.get('/', function (req, res) {
-    return res.send('Hello world');
-});
+app.use('/api', routes);
 
 app.listen(process.env.PORT || 8080);
