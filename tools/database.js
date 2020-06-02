@@ -9,6 +9,7 @@ if ((process.env.NODE_ENV || "").trim() !== "production") {
     password: process.env.PASSWORD_DB,
     port: 5432,
   });
+  module.exports = client;
 } else {
   const client = new Client({
     user: "hmqoueoyukzmbk",
@@ -18,6 +19,5 @@ if ((process.env.NODE_ENV || "").trim() !== "production") {
       "58c9bfd6598f1995759fd9cef4eba34f101215f31cd8af4236bc253034573dec",
     port: 5432,
   });
+  module.exports = client;
 }
-
-module.exports = client;
