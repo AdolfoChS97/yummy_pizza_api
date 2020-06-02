@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/AdolfoChS97/yummy_pizza_api/issues"
   },
-  "homepage": "https://github.com/AdolfoChS97/yummy_pizza_api#readme"
+  "homepage": "https://github.com/AdolfoChS97/yummy_pizza_api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
