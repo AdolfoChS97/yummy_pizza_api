@@ -1,9 +1,16 @@
+require('dotenv').config();
+const {
+    HOST_DB,
+    NAME_DB,
+    USER_DB,
+    PASSWORD_DB
+} = process.env;
 let {
     Sequelize
 } = require("sequelize");
 
-let sequelize = new Sequelize("yummy", "postgres", "postgres", {
-    host: "172.17.0.2",
+let sequelize = new Sequelize(NAME_DB, USER_DB, PASSWORD_DB, {
+    host: HOST_DB,
     dialect: "postgres",
     pool: {
         max: 10,
