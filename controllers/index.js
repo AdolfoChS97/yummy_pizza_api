@@ -1,10 +1,6 @@
-let sequalize = require('./../tools/database');
+const ModelController = require('./../models');
 
 class ApiController {
-
-    constructor() {
-
-    }
 
     static async login(req) {
         return 'login';
@@ -14,12 +10,30 @@ class ApiController {
         return 'register';
     }
 
-    static async getProducts(req) {
-        return 'get products';
+    static async getProducts() {
+        let result = true;
+        let error = []
+
+        try {
+
+            let data = await ModelController.getProducts();
+            return {
+                result: result,
+                data: data,
+                error: []
+            };
+
+        } catch (e) {
+            error.push(e);
+            return {
+                result: !result,
+                errors: error
+            }
+        }
     }
 
     static async getOrders(req) {
-        return 'get orders';
+        return 'orders'
     }
 
     static async addOrders(req) {

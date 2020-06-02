@@ -3,7 +3,8 @@ const ApiController = require('./../controllers');
 let router = express.Router();
 
 router.use(async (req, res, next) => {
-    console.log('Time:', Date.now());
+    let d = new Date();
+    console.log('Time:', d);
     next();
 });
 
@@ -22,7 +23,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.get('/products', async (req, res) => {
-    let response = await ApiController.getProducts(req);
+    let response = await ApiController.getProducts();
     res.send(response);
 })
 
