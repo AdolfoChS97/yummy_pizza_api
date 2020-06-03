@@ -1,8 +1,29 @@
-let database = require('./../tools/database');
+const database = require('./../tools/database');
+const Crypto = require('./../tools/crypto');
 
 class ApiModel {
+
+    static async getUserByEmail(email) {
+        let query = 'SELECT * FROM users WHERE email = $1';
+        let value = [email];
+        try {
+            const res = await database.query(query, value);
+            return res.rows[0];
+        } catch (err) {
+            console.log(err.stack)
+        }
+    }
+
     static async login(params) {
-        return 'login';
+        let User = await this.getUserByEmail(params.email);
+        if (User !== undefined) {
+            if (Crypto.decrypt(User.password) !== params.password) {
+                return 'wrong password';
+            }
+            return User;
+        }
+
+        return 'not exists';
     }
 
     static async register(params) {

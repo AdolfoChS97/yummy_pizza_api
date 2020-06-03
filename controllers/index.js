@@ -3,7 +3,26 @@ const Crypto = require('./../tools/crypto');
 
 class ApiController {
     static async login(req) {
-        console.log(req);
+        let result = true;
+        let error = [];
+        let params = {
+            email: req.body.email,
+            password: req.body.password
+        };
+        try {
+            let data = await ModelController.login(params);
+            return {
+                result: result,
+                data: data,
+                error: [],
+            };
+        } catch (e) {
+            error.push(e);
+            return {
+                result: !result,
+                errors: error,
+            };
+        }
     }
 
     static async register(req) {
