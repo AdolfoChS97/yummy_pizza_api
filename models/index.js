@@ -6,7 +6,20 @@ class ApiModel {
     }
 
     static async register(params) {
-        return 'register';
+        let query = 'INSERT INTO users(name, email, password, created_at, updated_at) VALUES($1,$2,$3,now(), now())RETURNING *';
+        let values = [];
+        // Here i used Object.keys for iterate transform the object params to an associative array
+        Object.keys(params).forEach(key => {
+            values.push(params[key]);
+        });
+        try {
+            await database.connect();
+            const res = await database.query(query, values)
+            await database.end();
+            return res.rows[0];
+        } catch (err) {
+            console.log(err.stack)
+        }
     }
 
     static async getProducts() {
