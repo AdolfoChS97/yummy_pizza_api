@@ -1,4 +1,6 @@
-const { Client } = require("pg");
+const {
+  Client
+} = require("pg");
 require("dotenv").config();
 
 const client = new Client({
@@ -8,5 +10,7 @@ const client = new Client({
   password: process.env.PASSWORD_DB,
   port: 5432,
 });
+
+client.connect();
 
 module.exports = client;

@@ -13,9 +13,7 @@ class ApiModel {
             values.push(params[key]);
         });
         try {
-            await database.connect();
-            const res = await database.query(query, values)
-            await database.end();
+            const res = await database.query(query, values);
             return res.rows[0];
         } catch (err) {
             console.log(err.stack)
@@ -23,9 +21,7 @@ class ApiModel {
     }
 
     static async getProducts() {
-        await database.connect();
         let resultQuery = await database.query('SELECT * FROM products');
-        await database.end();
         return resultQuery.rows;
     }
 
