@@ -6,7 +6,7 @@ create table users(
 	id serial, 
 	name varchar(40) not null,
 	email varchar(30) not null,
-	password varchar(25) not null,
+	password varchar(50) not null,
 	created_at timestamp not null,
 	updated_at timestamp not null,
 	primary key(id)
