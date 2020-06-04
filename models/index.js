@@ -3,6 +3,17 @@ const Crypto = require('./../tools/crypto');
 
 class ApiModel {
 
+    static async getUserById(id) {
+        let query = 'SELECT * FROM users WHERE id = $1';
+        let value = [id];
+        try {
+            const res = await database.query(query, value);
+            return res.rows[0];
+        } catch (err) {
+            console.log(err.stack)
+        }
+    }
+
     static async getUserByEmail(email) {
         let query = 'SELECT * FROM users WHERE email = $1';
         let value = [email];
@@ -46,12 +57,44 @@ class ApiModel {
         return resultQuery.rows;
     }
 
+    static async getProductById(id) {
+        let query = 'SELECT * FROM products WHERE id = $1';
+        let value = [id];
+        try {
+            const res = await database.query(query, value);
+            return res.rows[0];
+        } catch (err) {
+            console.log(err.stack)
+        }
+    }
+
     static async getOrders(params) {
         return 'get orders';
     }
 
     static async addOrders(params) {
-        return 'add orders';
+        let User = await this.getUserById(params.user_id);
+        if (User !== undefined) {
+            const product = await this.getProductById(params.product_id);
+            if (product !== undefined) {
+                let query = 'INSERT INTO orders(product_id, user_id, order_quantity, created_at, updated_at) VALUES($1,$2,$3,now(),now())';
+                let values = [];
+                Object.keys(params).forEach(key => {
+                    values.push(params[key]);
+                });
+                try {
+                    const res = await database.query(query, values);
+                    return 'order taken correctly';
+                } catch (err) {
+                    console.log(err.stack)
+                }
+            }
+
+            return 'product not exists';
+
+        }
+
+        return 'not exists';
     }
 
     static async addDeliveries(params) {
