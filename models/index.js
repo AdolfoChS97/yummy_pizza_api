@@ -68,8 +68,18 @@ class ApiModel {
         }
     }
 
-    static async getOrders(params) {
-        return 'get orders';
+    static async getOrders() {
+        let query = `
+        select 
+            users."name",
+            (orders.order_quantity * products.product_price ) as total, 
+            products.product_name,
+            date(orders.created_at) as order_date
+        from orders
+            inner join products on products.id = orders.product_id 
+            inner join users on users.id = orders.user_id`;
+        let result = await database.query(query);
+        return result.rows;
     }
 
     static async addOrders(params) {

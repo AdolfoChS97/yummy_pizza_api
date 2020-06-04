@@ -28,7 +28,7 @@ router.get("/products", async (req, res) => {
 });
 
 router.get("/orders", async (req, res) => {
-  let response = await ApiController.getOrders(req);
+  let response = await ApiController.getOrders();
   res.send(response);
 });
 

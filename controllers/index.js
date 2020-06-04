@@ -70,8 +70,23 @@ class ApiController {
         }
     }
 
-    static async getOrders(req) {
-        return "orders";
+    static async getOrders() {
+        let result = true;
+        let error = [];
+        try {
+            let data = await ModelController.getOrders();
+            return {
+                result: result,
+                data: data,
+                error: [],
+            };
+        } catch (e) {
+            error.push(e);
+            return {
+                result: !result,
+                errors: error,
+            };
+        }
     }
 
     static async addOrders(req) {
