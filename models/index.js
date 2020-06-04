@@ -82,6 +82,18 @@ class ApiModel {
         return result.rows;
     }
 
+    static async getOrderById(id) {
+        let query = 'SELECT * FROM orders WHERE id = $1';
+        let value = [id];
+        try {
+            const res = await database.query(query, value);
+            return res.rows[0];
+        } catch (err) {
+            console.log(err.stack)
+
+        }
+    }
+
     static async addOrders(params) {
         let User = await this.getUserById(params.user_id);
         if (User !== undefined) {
@@ -93,7 +105,7 @@ class ApiModel {
                     values.push(params[key]);
                 });
                 try {
-                    const res = await database.query(query, values);
+                    await database.query(query, values);
                     return 'order taken correctly';
                 } catch (err) {
                     console.log(err.stack)
@@ -108,7 +120,21 @@ class ApiModel {
     }
 
     static async addDeliveries(params) {
-        return 'add delivery';
+        let Order = await this.getOrderById(params.order_id);
+        if (Order !== undefined) {
+            let query = 'INSERT INTO deliveries(order_id, street, zone, parish, city, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, now(), now())';
+            let values = [];
+            Object.keys(params).forEach(key => {
+                values.push(params[key]);
+            });
+            try {
+                await database.query(query, values);
+                return 'delivery saved correctly';
+            } catch (err) {
+                console.log(err.stack)
+            }
+        }
+        return 'delivery doesnt exists';
     }
 }
 

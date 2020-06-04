@@ -1,4 +1,4 @@
-const ModelController = require("./../models");
+const ApiModel = require("./../models");
 const Crypto = require('./../tools/crypto');
 
 class ApiController {
@@ -10,7 +10,7 @@ class ApiController {
             password: req.body.password
         };
         try {
-            let data = await ModelController.login(params);
+            let data = await ApiModel.login(params);
             return {
                 result: result,
                 data: data,
@@ -35,7 +35,7 @@ class ApiController {
         };
 
         try {
-            let data = await ModelController.register(params);
+            let data = await ApiModel.register(params);
             return {
                 result: result,
                 data: data,
@@ -55,7 +55,7 @@ class ApiController {
         let error = [];
 
         try {
-            let data = await ModelController.getProducts();
+            let data = await ApiModel.getProducts();
             return {
                 result: result,
                 data: data,
@@ -74,7 +74,7 @@ class ApiController {
         let result = true;
         let error = [];
         try {
-            let data = await ModelController.getOrders();
+            let data = await ApiModel.getOrders();
             return {
                 result: result,
                 data: data,
@@ -98,7 +98,7 @@ class ApiController {
             order_quantity: req.body.order_quantity
         };
         try {
-            let data = await ModelController.addOrders(params)
+            let data = await ApiModel.addOrders(params)
             return {
                 result: result,
                 data: data,
@@ -114,7 +114,29 @@ class ApiController {
     }
 
     static async addDeliveries(req) {
-        return "add delivery";
+        let result = true;
+        let error = [];
+        let params = {
+            order_id: req.body.order_id,
+            street: req.body.street,
+            zone: req.body.zone,
+            parish: req.body.parish,
+            city: req.body.city
+        };
+        try {
+            let data = await ApiModel.addDeliveries(params);
+            return {
+                result: result,
+                data: data,
+                error: [],
+            };
+        } catch (e) {
+            error.push(e);
+            return {
+                result: !result,
+                errors: error,
+            };
+        }
     }
 }
 
