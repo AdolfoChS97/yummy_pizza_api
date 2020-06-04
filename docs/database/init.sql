@@ -17,7 +17,6 @@ create table orders(
 	id serial,
 	product_id int not null, 
 	user_id int not null,
-	delivery_id int not null,
 	order_quantity int not null,
 	created_at timestamp not null,
 	updated_at timestamp not null,
@@ -37,8 +36,9 @@ create table products(
 
 drop table if exists deliveries;
 create table deliveries(
-	id serial, 
-	street varchar(35) not null,
+	id serial,
+	order_id int not null,
+	street varchar(50) not null,
 	zone varchar(35) not null,
 	parish varchar(35) not null,
 	city varchar(35) not null,	
@@ -53,6 +53,5 @@ foreign key (user_id) references users(id);
 alter table orders add constraint FK_product_id
 foreign key (product_id) references products(id);
 
-alter table orders add constraint FK_delivery_id
-foreign key (delivery_id) references deliveries(id);
-
+alter table deliveries add constraint FK_order_id
+foreign key (order_id) references orders(id);
