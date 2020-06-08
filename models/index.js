@@ -1,5 +1,6 @@
 const database = require('./../tools/database');
 const Crypto = require('./../tools/crypto');
+const Jwt = require('./../tools/jwt');
 
 class ApiModel {
 
@@ -31,7 +32,11 @@ class ApiModel {
             if (Crypto.decrypt(User.password) !== params.password) {
                 return 'wrong password';
             }
-            return User;
+            let token = await Jwt.getToken(User.id);
+            return {
+                User,
+                token: token
+            };
         }
 
         return 'not exists';
